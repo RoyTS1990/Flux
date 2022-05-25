@@ -2,7 +2,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
 metadata:
-  name: attrage-app-5
+  name: attrage-app-51
   namespace: flux-system
 spec:
   filterTags:
