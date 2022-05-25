@@ -1,0 +1,11 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: attrage-v5
+  namespace: flux-system
+spec:
+  image: kamiq.skoda.roy.lab/kpack/attrage-app-5
+  interval: 1m0s
+  secretRef:
+    name: tutorial-registry-credentials
