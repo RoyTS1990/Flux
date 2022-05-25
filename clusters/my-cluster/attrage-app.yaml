@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: attrage-app
-        image: kamiq.skoda.roy.lab/kpack/attrage-app-5@sha256:b9250ce8a1d48ab3650703fbb985d75df246d7016e61a1531cca812e89db30eb
+        image: kamiq.skoda.roy.lab/kpack/attrage-app-5:b4.20220524.200318 # {"$imagepolicy": "flux-system:attrage-app-5"}
         env:
           - name: PORT
             value: "8080"
