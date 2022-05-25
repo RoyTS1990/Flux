@@ -7,3 +7,9 @@ metadata:
 spec:
   image: kamiq.skoda.roy.lab/kpack/attrage-app-5
   interval: 1m0s
+  secretRef:
+    name: harboaca
+  accessFrom:
+    namespaceSelectors:
+      - matchLabels:
+          kubernetes.io/metadata.name: flux-system
