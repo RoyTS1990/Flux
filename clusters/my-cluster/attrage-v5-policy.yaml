@@ -8,5 +8,5 @@ spec:
   imageRepositoryRef:
     name: attrage-v5
   policy:
-    numerical:
-      order: asc
+    semver:
+      range: b*
