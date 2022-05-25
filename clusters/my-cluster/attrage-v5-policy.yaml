@@ -8,6 +8,5 @@ spec:
   imageRepositoryRef:
     name: attrage-v5
   policy:
-    alphabetical:
+    numerical:
       order: asc
-
