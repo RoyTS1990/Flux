@@ -9,4 +9,4 @@ spec:
     name: attrage-v5
   policy:
     semver:
-      range: b*
+      range: *
