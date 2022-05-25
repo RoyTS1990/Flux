@@ -1,0 +1,130 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: attrage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attrage-app
+  labels:
+    app: attrage-app
+    tier: frontend
+  namespace: attrage
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: attrage-app
+    tier: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attrage-app
+  namespace: attrage
+spec:
+  selector:
+    matchLabels:
+      app: attrage-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: attrage-app
+        tier: frontend
+    spec:
+      containers:
+      - name: attrage-app
+        image: kamiq.skoda.roy.lab/kpack/attrage-app-5@sha256:b9250ce8a1d48ab3650703fbb985d75df246d7016e61a1531cca812e89db30eb
+        env:
+          - name: PORT
+            value: "8080"
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: attrage-httpproxy
+  namespace: attrage
+spec:
+  routes:
+  - conditions:
+    - prefix: /
+    pathRewritePolicy:
+      replacePrefix:
+      - prefix: /
+        replacement: /
+    services:
+    - name: attrage-app
+      port: 80
+  virtualhost:
+    fqdn: attrage-app-w4.terasky.local
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attrage-mysql
+  labels:
+    app: attrage-app
+  namespace: attrage
+spec:
+  selector:
+    matchLabels:
+      app: attrage
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: attrage
+        tier: mysql
+    spec:
+      containers:
+      - image: kamiq.skoda.roy.lab/library/attrage-db:0.4
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: P@ssw0rd
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attrage-mysql
+  labels:
+    app: attrage-app
+  namespace: attrage
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: attrage
+    tier: mysql
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+    app: attrage-app
+  namespace: attrage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
