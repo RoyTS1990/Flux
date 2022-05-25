@@ -39,10 +39,10 @@ spec:
     spec:
       containers:
       - name: attrage-app
-        image: kamiq.skoda.roy.lab/kpack/attrage-app-5:b4.20220524.200318 # {"$imagepolicy": "flux-system:attrage-app-5"}
+        image: kamiq.skoda.roy.lab/kpack/attrage-app-5:latest # {"$imagepolicy": "flux-system:attrage-app-5"}
         env:
-          - name: PORT
-            value: "8080"
+        - name: PORT
+          value: "8080"
 ---
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
@@ -109,7 +109,7 @@ metadata:
   namespace: attrage
 spec:
   ports:
-    - port: 3306
+  - port: 3306
   selector:
     app: attrage
     tier: mysql
@@ -124,7 +124,7 @@ metadata:
   namespace: attrage
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
