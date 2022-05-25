@@ -7,7 +7,7 @@ metadata:
 spec:
   filterTags:
     extract: ""
-    pattern: ^b*
+    pattern: ^b
   imageRepositoryRef:
     name: attrage-v5
   policy:
