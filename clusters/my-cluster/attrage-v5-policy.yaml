@@ -5,8 +5,11 @@ metadata:
   name: attrage-app-5
   namespace: flux-system
 spec:
+  filterTags:
+    extract: ""
+    pattern: ^b*
   imageRepositoryRef:
     name: attrage-v5
   policy:
-    semver:
-      range: *
+    alphabetical:
+      order: asc
