@@ -83,7 +83,7 @@ spec:
         tier: mysql
     spec:
       containers:
-      - image: kamiq.skoda.roy.lab/library/attrage-db:0.4
+      - image: kamiq.skoda.roy.lab/library/attrage-db:demo
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
