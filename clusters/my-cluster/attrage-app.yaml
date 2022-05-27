@@ -49,19 +49,18 @@ kind: Ingress
 metadata:
   name: attrage-ingress
   namespace: attrage
-  spec:
-    rules:
-    - host: attrage-app-w4.terasky.local
-      http:
-        paths:
-        - backend:
-            service:
-              name: attrage-app
-              port:
-                number: 80
-          path: /
-          pathType: ImplementationSpecific
-
+spec:
+  rules:
+  - host: attrage-app-w4.terasky.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: attrage-app
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
 ---
 apiVersion: apps/v1
 kind: Deployment
