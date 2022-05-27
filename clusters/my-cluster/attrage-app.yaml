@@ -44,24 +44,24 @@ spec:
         - name: PORT
           value: "8080"
 ---
-apiVersion: projectcontour.io/v1
-kind: HTTPProxy
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: attrage-httpproxy
+  name: attrage-ingress
   namespace: attrage
-spec:
-  routes:
-  - conditions:
-    - prefix: /
-    pathRewritePolicy:
-      replacePrefix:
-      - prefix: /
-        replacement: /
-    services:
-    - name: attrage-app
-      port: 80
-  virtualhost:
-    fqdn: attrage-app-w4.terasky.local
+  spec:
+    rules:
+    - host: attrage-app-w4.terasky.local
+      http:
+        paths:
+        - backend:
+            service:
+              name: attrage-app
+              port:
+                number: 80
+          path: /
+          pathType: ImplementationSpecific
+
 ---
 apiVersion: apps/v1
 kind: Deployment
